@@ -1,0 +1,202 @@
+<!--
+  Copyright © 2025 Wic (WhatIsCrypto)
+  All rights reserved.
+
+  Restrictions:
+  - Reselling or distributing this code or derivative works for profit or otherwise is prohibited.
+  - Uploading this code to other websites, marketplaces, or repositories without explicit permission is prohibited.
+  - Using this code in commercial products or services without a valid license from the author is prohibited.
+
+  For more information, please visit: https://urus.lol/legal.html
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Bio Page Title</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap" rel="stylesheet" />
+  
+  <style>
+    /* Reset and basic setup */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Fullscreen background and font */
+    body, html {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: 'Zen Kurenaido', sans-serif;
+      background: url('YOUR CUSTOM URL HERE') no-repeat center center/cover;
+      position: relative;
+      background-color: black; /* fallback background color */
+    }
+
+    /* Semi-transparent dark overlay to improve text visibility */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      height: 100%; width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 0;
+    }
+
+    /* Container for profile picture and typewriter text */
+    .bio-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 40%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* Profile picture styling */
+    .pfp {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 20px;
+      border: 2px solid rgba(255,255,255,0.7);
+      box-shadow: 0 0 10px rgba(255,255,255,0.6);
+    }
+
+    /* Typewriter text styling */
+    .bio-text {
+      color: #ffffff;
+      font-size: 2.4rem;
+      line-height: 1.5;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid rgba(255,255,255,0.7);
+      animation: blink 0.7s step-end infinite;
+      text-shadow: 0 0 8px white, 0 0 20px white;
+      min-width: 20ch; /* minimum width for layout stability */
+    }
+
+    /* Blinking cursor animation */
+    @keyframes blink {
+      0%, 100% { border-color: rgba(255,255,255,0.7); }
+      50% { border-color: transparent; }
+    }
+
+    /* Social media icons container */
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 35px;
+      margin-top: 30px;
+      z-index: 1;
+      position: absolute;
+      top: 60%; left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* Social icons images */
+    .social-icons a img {
+      width: 40px;
+      height: 40px;
+      opacity: 0.5;
+      filter: grayscale(100%) brightness(90%);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    /* Hover effect on social icons */
+    .social-icons a img:hover {
+      opacity: 0.85;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Dark overlay for readability -->
+  <div class="overlay"></div>
+
+  <!-- Optional background music; update src to your audio file -->
+  <audio id="backgroundMusic" src="YOUR CUSTOM AUDIO FILE HERE" autoplay loop></audio>
+
+  <!-- Main bio container -->
+  <div class="bio-container">
+    <!-- Profile picture: replace src with your image -->
+    <img class="pfp" src="YOUR CUSTOM LOGO HERE" alt="Profile Picture" />
+
+    <!-- Typewriter text element -->
+    <div class="bio-text" id="bioText"></div>
+  </div>
+
+  <!-- Social media icons: replace href and img src with your own -->
+  <div class="social-icons">
+    <a href="YOUR CUSTOM URL HERE" target="_blank" rel="noopener noreferrer">
+      <img src="YOUR CUSTOM LOGO HERE" alt="Social Icon 1" />
+    </a>
+    <a href="YOUR CUSTOM URL HERE" target="_blank" rel="noopener noreferrer">
+      <img src="YOUR CUSTOM LOGO HERE" alt="Social Icon 2" />
+    </a>
+    <a href="YOUR CUSTOM URL HERE" target="_blank" rel="noopener noreferrer">
+      <img src="YOUR CUSTOM LOGO HERE" alt="Social Icon 3" />
+    </a>
+    <a href="YOUR CUSTOM URL HERE" target="_blank" rel="noopener noreferrer">
+      <img src="YOUR CUSTOM LOGO HERE" alt="Social Icon 4" />
+    </a>
+  </div>
+
+  <script>
+    /* Customize your bio sentences here (up to 6) */
+    const bioSentences = [
+      "Sentence 1",
+      "Sentence 2",
+      "Sentence 3",
+      "Sentence 4",
+      "Sentence 5",
+      "Sentence 6"
+    ];
+
+    const bioTextElem = document.getElementById('bioText');
+    let currentSentence = 0;
+    let charIndex = 0;
+
+    /* Typewriter effect function */
+    function typeWriter() {
+      if (charIndex < bioSentences[currentSentence].length) {
+        bioTextElem.textContent += bioSentences[currentSentence].charAt(charIndex);
+        charIndex++;
+        setTimeout(typeWriter, 70); // typing speed in milliseconds
+      } else {
+        setTimeout(() => {
+          // Fade out text before next sentence
+          bioTextElem.style.transition = 'opacity 1s';
+          bioTextElem.style.opacity = '0';
+          setTimeout(() => {
+            // Reset for next sentence
+            currentSentence = (currentSentence + 1) % bioSentences.length;
+            bioTextElem.textContent = '';
+            bioTextElem.style.transition = 'none';
+            bioTextElem.style.opacity = '1';
+            charIndex = 0;
+            typeWriter();
+          }, 1000);
+        }, 4000); // pause time after sentence is fully typed
+      }
+    }
+
+    typeWriter();
+
+    /* Background music play on user interaction (due to browser autoplay policies) */
+    const backgroundMusic = document.getElementById("backgroundMusic");
+    document.addEventListener("click", () => {
+      if (backgroundMusic.paused) backgroundMusic.play();
+    });
+  </script>
+</body>
+</html>
